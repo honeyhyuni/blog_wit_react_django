@@ -13,16 +13,16 @@ class TimeStampedModel(models.Model):
 class FreeBoard(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     caption = models.TextField()
-    photo = models.ImageField(upload_to='blogs/freeBoard/%Y/%m/%d')
+    photo = models.ImageField(upload_to='blogs/freeBoard/%Y/%m/%d', blank=True)
 
 
 class NoticeInform(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     caption = models.TextField()
-    photo = models.ImageField(upload_to='blogs/noticeInform/%Y/%m/%d')
+    photo = models.ImageField(upload_to='blogs/noticeInform/%Y/%m/%d', blank=True)
 
 
 class OperateBoard(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     caption = models.TextField()
-    photo = models.ImageField(upload_to='blogs/operateBoard/%Y/%m/%d')
+    photo = models.ImageField(upload_to='blogs/operateBoard/%Y/%m/%d', blank=True)
