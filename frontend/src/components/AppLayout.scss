@@ -1,0 +1,24 @@
+.app {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+        "header header header"
+        "contents contents sidebar"
+        "footer footer footer";
+    width: 1536px;
+    max-width: 100%;
+    margin: 10px auto;
+    .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        grid-area: header;
+        .page-title{
+
+        }
+        .topnav{
+
+        }
+    }
+}
