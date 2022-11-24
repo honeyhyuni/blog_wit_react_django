@@ -12,4 +12,17 @@ class TimeStampedModel(models.Model):
 
 class FreeBoard(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    caption = models.CharField(max_length=3000)
+    caption = models.TextField()
+    photo = models.ImageField(upload_to='blogs/freeBoard/%Y/%m/%d')
+
+
+class NoticeInform(TimeStampedModel):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    caption = models.TextField()
+    photo = models.ImageField(upload_to='blogs/noticeInform/%Y/%m/%d')
+
+
+class OperateBoard(TimeStampedModel):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    caption = models.TextField()
+    photo = models.ImageField(upload_to='blogs/operateBoard/%Y/%m/%d')
