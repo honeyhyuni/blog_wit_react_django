@@ -4,7 +4,7 @@ import Axios from "axios";
 function Example(){
     const [post, setPost] = useState([]);
     const [post2, setPost2] = useState([]);
-    const apiUrl = "http://localhost:8000/api/freeb/like/";
+    const apiUrl = "http://localhost:8000/api/freeb/";
     const apiUrl2 = "http://localhost:8000/api/informb/";
     Axios.get(apiUrl)
     .then(response => {

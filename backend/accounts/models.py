@@ -8,10 +8,10 @@ class User(AbstractUser):
         MALE = "M", "남성"
         FEMALE = "F", "여성"
     age = models.PositiveIntegerField(blank=False, null=False)
-    gender = models.CharField(max_length=1, blank=True,
+    gender = models.CharField(max_length=1, blank=False, null=False,
                               choices=GenderChoices.choices,
                               default=GenderChoices.MALE)
-    phone_number = models.CharField(max_length=13, blank=True,
+    phone_number = models.CharField(max_length=13, blank=False, null=False,
                                     validators=[RegexValidator(r"^010-?[1-9]\d{3}-?\d{4}$")])
     @property
     def name(self):
