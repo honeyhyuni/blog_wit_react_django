@@ -19,9 +19,9 @@ function AppLayout({children}){
                 <h1 className="page-title"><img src={logo_} alt="logo" style={{width:"120px"}}></img></h1>
                 <div className="topnav">
                     <Menu mode="horizontal">
-                        <Menu.Item onClick={() => onClick(1)}>1</Menu.Item>
-                        <Menu.Item>Logout</Menu.Item>
-                        <Menu.Item>3</Menu.Item>
+                        <Menu.Item onClick={() => onClick(1)}>회원가입</Menu.Item>
+                        <Menu.Item>로그인</Menu.Item>
+                        <Menu.Item>비밀번호 찾기</Menu.Item>
                     </Menu>
                 </div>
             </div>

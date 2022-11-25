@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import { Input, Form, Button, Card, Select} from "antd";
-
+import { Input, Form, Button, Card, Select, InputNumber} from "antd";
+import {UserOutlined, LockOutlined, PhoneOutlined} from "@ant-design/icons";
 
 
 export default function Signup() {
@@ -35,7 +35,7 @@ export default function Signup() {
                     // {...fieldErrors.username}
                     // {...fieldErrors.non_field_errors}
                     >
-                    <Input />
+                    <Input prefix={<UserOutlined/>} placeholder="Username" />
                 </Form.Item>
 
                 <Form.Item
@@ -54,36 +54,46 @@ export default function Signup() {
                     ]}
                     // {...fieldErrors.password}
                 >
-                    <Input.Password />
+                    <Input.Password prefix={<LockOutlined />} placeholder="Password" />
                 </Form.Item>
 
                 <Form.Item
-                    label="Check Password"
-                    name="password2"
+                    name="confirm"
+                    label="Confirm Password"
+                    dependencies={['password']}
+                    hasFeedback
                     rules={[
                     {
                         required: true,
-                        message: 'Please input your password!',
                     },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                        if (!value || getFieldValue('password') === value) {
+                            return Promise.resolve();
+                        }
+                        return Promise.reject(new Error('위에 입력하신 비밀번호와 다릅니다.'));
+                        },
+                    }),
                     ]}
-                    // {...fieldErrors.password}
                 >
-                    <Input.Password />
-                </Form.Item>
+        <Input.Password prefix={<LockOutlined />} placeholder="Confirm Password"/>
+      </Form.Item>
 
                 <Form.Item
                     label="age"
                     name="age"
                     rules={[
-                    {
-                        required: true,
-                    },
-                    ]}
+                        {
+                          type: 'number',
+                          min: 0,
+                          max: 99,
+                        },
+                      ]}
                     hasFeedback
                     // {...fieldErrors.username}
                     // {...fieldErrors.non_field_errors}
                     >
-                    <Input />
+                    <InputNumber defaultValue={15}/>
                 </Form.Item>
 
                 <Form.Item
@@ -101,8 +111,8 @@ export default function Signup() {
                     >
         
                     <Select>
-                        <Select.Option value="M">Male</Select.Option>
-                        <Select.Option value="F">Female</Select.Option>
+                        <Select.Option value="M">남성</Select.Option>
+                        <Select.Option value="F">여성</Select.Option>
                     </Select>
                 </Form.Item>
 
@@ -116,12 +126,13 @@ export default function Signup() {
                     {
                         len:11, message: "휴대폰 번호 11 자리를 입력해주세요.",
                     },
+        
                     ]}
                     hasFeedback
                     // {...fieldErrors.username}
                     // {...fieldErrors.non_field_errors}
                     >
-                    <Input placeholder='"-" 없이 11자리를 입력해주세요'/>
+                    <Input prefix={<PhoneOutlined/>} placeholder='"-" 없이 11자리를 입력해주세요'/>
                 </Form.Item>
 
                 
