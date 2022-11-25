@@ -1,12 +1,15 @@
 .app {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-areas: 
         "header header header"
-        "contents contents sidebar"
+        "body body body"
+        "blog_title blog_title blog_title"
+        "sub_header sub_header sub_header "
+        "contents contents contents"
         "footer footer footer";
-    width: 1536px;
+    width: 1248px;
     max-width: 100%;
     margin: 10px auto;
     .header{
@@ -14,11 +17,33 @@
         justify-content: space-between;
         align-items: center;
         grid-area: header;
-        .page-title{
-
+        .page-title{   
         }
         .topnav{
 
         }
+    }
+    .blog_title{
+        grid-area: blog_title;
+        justify-self: center;
+    }
+    .sub_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        grid-area: sub_header;
+        .choice_title{
+        }
+        .search{
+           
+        }
+    }
+    .contents{
+        grid-area: contents;
+    }
+
+    .footer{
+        grid-area: footer;
+        justify-self: center;
     }
 }
