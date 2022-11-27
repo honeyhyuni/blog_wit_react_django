@@ -13,7 +13,6 @@ class NoticeInformSerializer(serializers.ModelSerializer):
         model = NoticeInform
         fields = '__all__'
 
-
 class OperateBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = OperateBoard

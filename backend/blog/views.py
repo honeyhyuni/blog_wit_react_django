@@ -20,7 +20,7 @@ class OperateBoardViewSet(ModelViewSet):
     queryset = OperateBoard.objects.all()
     serializer_class = OperateBoardSerializer
     permission_classes = [AllowAny]
-
+    ordering = ['-id']
 
 class NoticeInformViewSet(ModelViewSet):
     queryset = NoticeInform.objects.all()
