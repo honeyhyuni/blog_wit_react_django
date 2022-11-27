@@ -3,4 +3,4 @@ pillow
 django-debug-toolbar
 djangorestframework
 django-cors-headers
-djangorestframework-jwt
+djangorestframework-simplejwt
