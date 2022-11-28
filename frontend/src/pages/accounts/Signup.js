@@ -1,12 +1,49 @@
 import React, {useState} from "react";
-import { Input, Form, Button, Card, Select, InputNumber} from "antd";
-import {UserOutlined, LockOutlined, PhoneOutlined} from "@ant-design/icons";
-
+import { Input, Form, Button, Card, Select, InputNumber, notification} from "antd";
+import {UserOutlined, LockOutlined, PhoneOutlined, SmileOutlined, FrownOutlined} from "@ant-design/icons";
+import parseErrorMessages from "pages/utils/ParseError";
+// import { useAxios } from "use-axios";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
 export default function Signup() {
-  
+    
+    const navigate = useNavigate();
+    const [fieldErrors, setFieldErrors] = useState({});
+    const onFinish = (values) => {
+        console.log("values:" , values)
+        async function fn(){
+            const {username, password, first_name, last_name, age, gender, phone_number} = values;
+            setFieldErrors({});
+
+            const data = {username, password, age, gender, phone_number, first_name, last_name};
+            try{
+                await Axios.post("http://localhost:8000/accounts/signup/", data)
+                notification.open({
+                    message: "회원가입 성공",
+                    description: "로그인 페이지로 이동합니다.",
+                    icon: <SmileOutlined style={{color:"#108ee9"}}/>
+                })
+                navigate("/accounts/login");
+            }
+            catch(error){
+                if(error.response){
+                    notification.open({
+                        message: "회원가입 실패",
+                        description: "아이디/암호를 확인해주세요.",
+                        icon: <FrownOutlined style={{color: "#ff3333"}}/>
+                    })
+                    const {data: fieldsErrorMessages} = error.response
+                    setFieldErrors(parseErrorMessages(fieldsErrorMessages));
+                }
+
+            }
+        }
+        fn(); 
+    };
+
     return(
-        <Card title="로그인" style={{width:"1024px", margin:"0 auto"}}> 
+        <Card title="회원가입" style={{width:"1024px", margin:"0 auto"}}> 
             <Form
                 labelCol={{
                     span: 8,
@@ -14,13 +51,13 @@ export default function Signup() {
                 wrapperCol={{
                     span: 8,
                 }}
-                // onFinish={onFinish} // submit 직후 호출됨
-                //   onFinishFailed={onFinishFailed}
+                onFinish={onFinish} // submit 직후 호출됨
+                // onFinishFailed={onFinishFailed}
                 autoComplete="off">
                 <Form.Item
                     label="Username"
                     name="username"
-                    rules={[
+                    rules={[                    
                     {
                         required: true,
                     },
@@ -32,8 +69,7 @@ export default function Signup() {
 
                     ]}
                     hasFeedback
-                    // {...fieldErrors.username}
-                    // {...fieldErrors.non_field_errors}
+                    {...fieldErrors.username}
                     >
                     <Input prefix={<UserOutlined/>} placeholder="Username" />
                 </Form.Item>
@@ -52,10 +88,11 @@ export default function Signup() {
                         min:6, message: "비밀번호를 6자리 이상 입력해주세요."
                     },
                     ]}
-                    // {...fieldErrors.password}
+                    {...fieldErrors.password}
                 >
                     <Input.Password prefix={<LockOutlined />} placeholder="Password" />
                 </Form.Item>
+
 
                 <Form.Item
                     name="confirm"
@@ -76,11 +113,37 @@ export default function Signup() {
                     }),
                     ]}
                 >
+
         <Input.Password prefix={<LockOutlined />} placeholder="Confirm Password"/>
+        </Form.Item>
+        <Form.Item
+                    label="First Name"
+                    name="first_name"
+                    rules={[
+                    {
+                        required: true,
+                    },
+                    ]}
+                    {...fieldErrors.first_name}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Last Name"
+                    name="last_name"
+                    rules={[
+                    {
+                        required: true,
+                    },
+                    ]}
+                    {...fieldErrors.last_name}
+                >
+                    <Input />
       </Form.Item>
 
                 <Form.Item
-                    label="age"
+                    label="Age"
                     name="age"
                     rules={[
                         {
@@ -90,8 +153,7 @@ export default function Signup() {
                         },
                       ]}
                     hasFeedback
-                    // {...fieldErrors.username}
-                    // {...fieldErrors.non_field_errors}
+                    {...fieldErrors.age}
                     >
                     <InputNumber defaultValue={15}/>
                 </Form.Item>
@@ -106,8 +168,7 @@ export default function Signup() {
                     },
                     ]}
                     hasFeedback
-                    // {...fieldErrors.username}
-                    // {...fieldErrors.non_field_errors}
+                    {...fieldErrors.gender}
                     >
         
                     <Select>
@@ -129,8 +190,7 @@ export default function Signup() {
         
                     ]}
                     hasFeedback
-                    // {...fieldErrors.username}
-                    // {...fieldErrors.non_field_errors}
+                    {...fieldErrors.phone_number}
                     >
                     <Input prefix={<PhoneOutlined/>} placeholder='"-" 없이 11자리를 입력해주세요'/>
                 </Form.Item>

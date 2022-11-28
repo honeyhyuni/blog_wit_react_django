@@ -1,19 +1,35 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import FreeBoard, NoticeInform, OperateBoard
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'username', 'name'
+        ]
+
+
 class FreeBoardSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
     class Meta:
         model = FreeBoard
-        fields = '__all__'
+        fields = ['id', 'author', 'created_at', 'caption', 'photo', 'title']
 
 
 class NoticeInformSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
     class Meta:
         model = NoticeInform
-        fields = '__all__'
+        fields = ['id', 'author', 'created_at', 'caption', 'photo', 'title']
+
 
 class OperateBoardSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
     class Meta:
         model = OperateBoard
-        fields = '__all__'
+        fields = ['id', 'author', 'created_at', 'caption', 'photo', 'title']
