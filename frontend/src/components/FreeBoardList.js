@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
 import {Table} from "antd";
 
-function Example(){
+function FreeBoardList(){
     const [post, setPost] = useState([]);
-    const apiUrl = "http://localhost:8000/api/freeb/";
-    Axios.get(apiUrl)
-    .then(response => {
-        const {data} = response;
-        setPost(data)
-    })
-    .catch()
+    useEffect(() => {
+      async function fetchList(){
+      const apiUrl = "http://localhost:8000/api/freeb/"
+      await  Axios.get(apiUrl)
+      .then(response => {
+          const {data} = response;
+          setPost(data)
+      })
+      .catch()
+      }
+      fetchList()
+    }, [])
 
     const columns = [
         {
@@ -26,7 +31,7 @@ function Example(){
         },
         {
           title:'Username',
-          dataIndex: 'author',
+          dataIndex: "username",
           key:'key',
         },
         {
@@ -49,7 +54,12 @@ function Example(){
           }
         }
       ]
-    const data = [...post]
+      const data = []
+      post.map(p => {
+        const {author, created_at, title, caption, id, photo} = p
+        const {username, name} = author
+        data.push({created_at, title, caption, id, username, name, photo})
+      })
     const onChange = (pagination, filters, sorter, extra) => {
       console.log('params', pagination, filters, sorter, extra);
     };
@@ -64,4 +74,4 @@ function Example(){
 }
 
 
-export default Example;
+export default FreeBoardList;

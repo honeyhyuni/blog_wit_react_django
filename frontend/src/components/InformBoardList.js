@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import {Table} from "antd";
 import moment from "moment";
 
 function InformBoardList(){
     const [post, setPost] = useState([]);
-    const apiUrl = "http://localhost:8000/api/informb/";
-    Axios.get(apiUrl)
-    .then(response => {
-        const {data} = response;
-        setPost(data)
-    })
-    .catch()
+    useEffect(() => {
+      async function fetchList(){
+      const apiUrl = "http://localhost:8000/api/informb/"
+      await  Axios.get(apiUrl)
+      .then(response => {
+          const {data} = response;
+          setPost(data)
+      })
+      .catch()
+      }
+      fetchList()
+    }, [])
     const columns = [
         {
           title: 'ID',
@@ -25,7 +30,7 @@ function InformBoardList(){
         },
         {
           title:'Username',
-          dataIndex: 'author',
+          dataIndex: 'username',
           key:'key',
         },
         {
@@ -48,7 +53,12 @@ function InformBoardList(){
           }
         }
       ]
-    const data = [...post]
+      const data = []
+      post.map(p => {
+        const {author, created_at, title, caption, id, photo} = p
+        const {username, name} = author
+        data.push({created_at, title, caption, id, username, name, photo})
+      })
     const onChange = (pagination, filters, sorter, extra) => {
       console.log('params', pagination, filters, sorter, extra);
     };

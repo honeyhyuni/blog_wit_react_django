@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import {Table} from "antd";
 import moment from 'moment';
+import useAxios from "use-axios";
+import { useAppContext } from "store";
 
 function OperateBoardList(){
     const [post, setPost] = useState([]);
+    // const {store:{jwtToken}} = useAppContext();
+    // const headers = { Authorization: `JWT ${jwtToken}` };
 
-    const apiUrl = "http://localhost:8000/api/operateb/";
-    try{
-         Axios.get(apiUrl)
-        .then(response => {
-            const {data} = response;
-            setPost(data)
-        })
-        .catch()
-    }catch{
-    }
+    useEffect(() => {
+      async function fetchList(){
+      const apiUrl = "http://localhost:8000/api/operateb/"
+      await  Axios.get(apiUrl)
+      .then(response => {
+          const {data} = response;
+          setPost(data)
+      })
+      .catch()
+      }
+      fetchList()
+    }, [])
+    
+    
     const columns = [
         {
           title: 'ID',
@@ -29,7 +37,7 @@ function OperateBoardList(){
         },
         {
           title:'Username',
-          dataIndex: 'author',
+          dataIndex: 'username',
           key:'key',
         },
         {
@@ -52,7 +60,14 @@ function OperateBoardList(){
           }
         }
       ]
-    const data = [...post]
+    const data = []
+    post.map(p => {
+      const {author, created_at, title, caption, id, photo} = p
+      const {username, name} = author
+      data.push({created_at, title, caption, id, username, name, photo})
+    })
+    
+
     const onChange = (pagination, filters, sorter, extra) => {
       console.log('params', pagination, filters, sorter, extra);
     };

@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import logo_ from "assets/ani_logo.png"
-import {Menu, Input, Button, List} from "antd";
+import {Menu, Input} from "antd";
 import "./AppLayout.scss";
-import Signup from "pages/accounts/Signup";
 import { useNavigate } from "react-router-dom";
 import BeforeLoginMenu from "./BeforeLoginMenu";
 import AfterLoginMenu from "./AfterLoginMenu";
 import OperateBoardList from "./OperateBoardList";
 import Axios from "axios";
-import Home from "pages/Home";
 import FreeBoardList from "./FreeBoardList";
 import InformBoardList from "./InformBoardList";
+import {useAppContext} from "store";
 
 function AppLayout(){
+    const {store:{jwtToken}} = useAppContext();
+    console.log(jwtToken)
+    // const headers = {Authorization: `JWT ${jwtToken}`};
     const [value, setValue] = useState(1)
     const [content, setContent] = useState(<OperateBoardList />)
+    
+   
+
     const onClick = (value) =>{
         setValue(value)
         if (value===1){
@@ -33,8 +38,7 @@ function AppLayout(){
             <div className="header">
                 <h1 className="page-title"><img src={logo_} alt="logo" style={{width:"120px"}}></img></h1>
                 <div className="topnav">
-                    <BeforeLoginMenu />
-                    {/* <AfterLoginMenu /> */}
+                    {jwtToken && jwtToken ? <AfterLoginMenu /> : <BeforeLoginMenu/>}
                 </div>
             </div>
             <div className="blog_title"><h1>Honeyhyuni's Blog</h1></div>
@@ -56,7 +60,6 @@ function AppLayout(){
         </div>  
     );
 }
-
 
 
 export default AppLayout;
