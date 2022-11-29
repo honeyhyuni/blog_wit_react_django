@@ -3,6 +3,7 @@ import React from "react";
 import {Route, Routes} from "react-router-dom";
 import Home from "./Home";
 import AccountsRoutes from "./accounts";
+import OperateNewForm from "components/OperateNewForm";
 // import LoginRequiredPage from "./utils/LoginRequiredPages";
 // import PostNew from "./PostNew"
 
@@ -13,6 +14,7 @@ function Root(){
                 {/* <Route element={<LoginRequiredPage />}> */}
                 <Route path="/" element={<Home />} />
                 {/* </Route> */}
+                <Route path="/posts/new" element={<OperateNewForm />} />
                 {/* <Route path="/about" element={<About />} /> */}
                 <Route path="/accounts/*" element={<AccountsRoutes/>} />
             </Routes>

@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import {Table} from "antd";
+import {Button, Table} from "antd";
 import moment from 'moment';
 import useAxios from "use-axios";
 import { useAppContext } from "store";
+import PostNewForm from "./OperateNewForm";
+import { useNavigate } from "react-router-dom";
 
 function OperateBoardList(){
+    const navigate = useNavigate();
     const [post, setPost] = useState([]);
     // const {store:{jwtToken}} = useAppContext();
     // const headers = { Authorization: `JWT ${jwtToken}` };
+
+
+    const handleClick = (e) => {
+      navigate("/posts/new");
+  }
 
     useEffect(() => {
       async function fetchList(){
@@ -73,8 +81,9 @@ function OperateBoardList(){
     };
     return(
         <div>
-    <Table columns={columns} dataSource={data} onChange={onChange} pagination={{pageSize: 10}}/>
-</div>
+          <Button type="primary" style={{marginBottom:"1em"}} onClick={handleClick}>새 포스팅 쓰기</Button>
+          <Table columns={columns} dataSource={data} onChange={onChange} pagination={{pageSize: 10}}/>
+        </div>
     )
 }
 

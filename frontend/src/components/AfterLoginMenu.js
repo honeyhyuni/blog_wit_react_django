@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 export default function AfterLoginMenu(){
     const navigate = useNavigate();
     const onClick = (value) => { 
-        console.log("회원가입:", value)
         if(value === 1){
             navigate("accounts/signup/")
         }
         else if(value === 2){
-            navigate("accounts/login/")
+            navigate("accounts/logout/")
         }
         else{
             navigate("accounts/logout/")
