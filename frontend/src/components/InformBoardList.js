@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import {Table} from "antd";
+import {Table, Button} from "antd";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 function InformBoardList(){
     const [post, setPost] = useState([]);
+    const navigate = useNavigate()
+    const handleClick = (e) => {
+        navigate("inform/new")
+    }
     useEffect(() => {
       async function fetchList(){
-      const apiUrl = "http://localhost:8000/api/informb/"
+      const apiUrl = "http://localhost:8000/api/inform/"
       await  Axios.get(apiUrl)
       .then(response => {
           const {data} = response;
@@ -65,6 +70,7 @@ function InformBoardList(){
 
     return(
     <div>
+        <Button type="primary" style={{marginBottom:"1em"}} onClick={handleClick}>새 포스팅 쓰기</Button>
         <Table columns={columns} dataSource={data} onChange={onChange} pagination={{pageSize: 10}}/>
     </div>
     )

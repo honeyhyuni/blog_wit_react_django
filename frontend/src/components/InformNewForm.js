@@ -34,7 +34,7 @@ export default function PostNewForm(){
         const headers = { Authorization: `Bearer ${jwtToken}` };
         try {
 
-            const response = await Axios.post("http://localhost:8000/api/operate/", formData, {
+            const response = await Axios.post("http://localhost:8000/api/inform/", formData, {
             headers
           });
           console.log("success response :", response);
@@ -138,7 +138,6 @@ export default function PostNewForm(){
                 alt="Preview"
                 />
             </Modal>
-
                 </Form>
             </Card>
     </div>

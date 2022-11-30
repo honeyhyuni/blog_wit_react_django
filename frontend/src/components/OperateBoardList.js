@@ -3,24 +3,22 @@ import Axios from "axios";
 import {Button, Table} from "antd";
 import moment from 'moment';
 import useAxios from "use-axios";
-import { useAppContext } from "store";
 import PostNewForm from "./OperateNewForm";
 import { useNavigate } from "react-router-dom";
 
 function OperateBoardList(){
     const navigate = useNavigate();
     const [post, setPost] = useState([]);
-    // const {store:{jwtToken}} = useAppContext();
-    // const headers = { Authorization: `JWT ${jwtToken}` };
+
 
 
     const handleClick = (e) => {
-      navigate("/posts/new");
+      navigate("/operate/new");
   }
 
     useEffect(() => {
       async function fetchList(){
-      const apiUrl = "http://localhost:8000/api/operateb/"
+      const apiUrl = "http://localhost:8000/api/operate/"
       await  Axios.get(apiUrl)
       .then(response => {
           const {data} = response;

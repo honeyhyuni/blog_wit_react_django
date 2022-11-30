@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
-import {Table} from "antd";
+import {Table, Button} from "antd";
+import { useNavigate } from "react-router-dom";
 
 function FreeBoardList(){
     const [post, setPost] = useState([]);
+    const navigate = useNavigate();
+    const handleClick = (e) => {
+      navigate("/free/new");
+    }
     useEffect(() => {
       async function fetchList(){
-      const apiUrl = "http://localhost:8000/api/freeb/"
+      const apiUrl = "http://localhost:8000/api/free/"
       await  Axios.get(apiUrl)
       .then(response => {
           const {data} = response;
@@ -68,6 +73,7 @@ function FreeBoardList(){
 
     return(
         <div>
+            <Button type="primary" style={{marginBottom:"1em"}} onClick={handleClick}>새 포스팅 쓰기</Button>
             <Table columns={columns} dataSource={data} onChange={onChange} pagination={{pageSize: 10}}/>
         </div>
         )

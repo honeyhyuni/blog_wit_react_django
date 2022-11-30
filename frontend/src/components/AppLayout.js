@@ -1,22 +1,20 @@
-import React, {useEffect, useState } from "react";
+import React, {useState } from "react";
 import logo_ from "assets/ani_logo.png"
 import {Menu, Input} from "antd";
 import "./AppLayout.scss";
-import { useNavigate } from "react-router-dom";
 import BeforeLoginMenu from "./BeforeLoginMenu";
 import AfterLoginMenu from "./AfterLoginMenu";
 import OperateBoardList from "./OperateBoardList";
-import Axios from "axios";
 import FreeBoardList from "./FreeBoardList";
 import InformBoardList from "./InformBoardList";
 import {useAppContext} from "store";
 
 function AppLayout(){
     const {store:{jwtToken}} = useAppContext();
-    console.log(jwtToken)
+
     // const headers = {Authorization: `JWT ${jwtToken}`};
-    const [value, setValue] = useState(1)
-    const [content, setContent] = useState(<OperateBoardList />)
+    const [value, setValue] = useState(2)
+    const [content, setContent] = useState(<FreeBoardList />)
     
    
 
@@ -45,8 +43,8 @@ function AppLayout(){
         <div className="sub_header">
             <div className="choice_title">
                 <Menu mode="horizontal" defaultSelectedKeys={["free"]}>
-                    <Menu.Item key="free" onClick={()=>onClick(1)}>공지사항</Menu.Item>
-                    <Menu.Item key="operate" onClick={()=>onClick(2)}>자유게시판</Menu.Item>
+                    <Menu.Item key="operate" onClick={()=>onClick(1)}>공지사항</Menu.Item>
+                    <Menu.Item key="free" onClick={()=>onClick(2)}>자유게시판</Menu.Item>
                     <Menu.Item key="inform" onClick={()=>onClick(3)}>운영게시판</Menu.Item>
                 </Menu>
             </div>
