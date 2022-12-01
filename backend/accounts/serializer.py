@@ -14,6 +14,7 @@ class SignupSerializers(serializers.ModelSerializer):
             age=validated_data['age'],
             gender=validated_data['gender'],
             phone_number=validated_data['phone_number'],
+            photo=validated_data['photo']
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -21,4 +22,10 @@ class SignupSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'first_name', 'last_name', 'password', 'age', 'gender', 'phone_number']
+        fields = ['username', 'first_name', 'last_name', 'password', 'age', 'gender', 'phone_number', 'photo']
+
+
+class UserFineByMeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['username']
