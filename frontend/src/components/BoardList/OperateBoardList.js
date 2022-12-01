@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import {Button, Table} from "antd";
 import moment from 'moment';
-import useAxios from "use-axios";
-import PostNewForm from "./OperateNewForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function OperateBoardList(){
     const navigate = useNavigate();
@@ -49,6 +47,7 @@ function OperateBoardList(){
         {
           title: 'Title',
           dataIndex: 'title',
+          render: (text, record) => <Link to={`operate/${record.id}`}>{text}</Link>,
           key: 'key',
         },
         {

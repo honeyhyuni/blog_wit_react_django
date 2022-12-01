@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
 import {Table, Button} from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, Routes, Route } from "react-router-dom";
+import FreeDetail from "components/DetailForm/FreeDetail";
 
 function FreeBoardList(){
     const [post, setPost] = useState([]);
@@ -27,7 +28,7 @@ function FreeBoardList(){
         {
           title: 'ID',
           dataIndex: 'id',
-          key: 'key',
+          key: 'id',
           // specify the condition of filtering result
           // here is that finding the name started with `value`
           // onFilter: (value, record) => record.id.indexOf(value) === 0,
@@ -37,16 +38,18 @@ function FreeBoardList(){
         {
           title:'Username',
           dataIndex: "username",
-          key:'key',
+          key:'username',
         },
         {
           title: 'Title',
           dataIndex: 'title',
-          key: 'key',
+  
+          render: (text, record) => <Link to={`free/${record.id}`}>{text}</Link>,
+          key: 'title',
         },
         {
           title: 'Created_at',
-          key: 'key',
+          key: 'create_at',
           // onFilter: (value, record) => record.address.indexOf(value) === 0,
           sorter: {
             compare: (a, b) =>
@@ -61,9 +64,9 @@ function FreeBoardList(){
       ]
       const data = []
       post.map(p => {
-        const {author, created_at, title, caption, id, photo} = p
-        const {username, name} = author
-        data.push({created_at, title, caption, id, username, name, photo})
+        const {author, created_at, title, caption, id} = p
+        const {username, name} = author || "username"
+        data.push({created_at, title, caption, id, username, name})
       })
     const onChange = (pagination, filters, sorter, extra) => {
       console.log('params', pagination, filters, sorter, extra);

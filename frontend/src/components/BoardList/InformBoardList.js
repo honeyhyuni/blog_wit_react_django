@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import {Table, Button} from "antd";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function InformBoardList(){
     const [post, setPost] = useState([]);
@@ -22,6 +22,7 @@ function InformBoardList(){
       }
       fetchList()
     }, [])
+
     const columns = [
         {
           title: 'ID',
@@ -41,6 +42,7 @@ function InformBoardList(){
         {
           title: 'Title',
           dataIndex: 'title',
+          render: (text, record) => <Link to={`inform/${record.id}`}>{text}</Link>,
           key: 'key',
         },
         {
