@@ -2,15 +2,15 @@ import React, {useState } from "react";
 import logo_ from "assets/ani_logo.png"
 import {Menu, Input} from "antd";
 import "./AppLayout.scss";
-import BeforeLoginMenu from "./BeforeLoginMenu";
-import AfterLoginMenu from "./AfterLoginMenu";
-import OperateBoardList from "./OperateBoardList";
-import FreeBoardList from "./FreeBoardList";
-import InformBoardList from "./InformBoardList";
+
+import OperateBoardList from "./BoardList/OperateBoardList";
+import FreeBoardList from "./BoardList/FreeBoardList";
+import InformBoardList from "./BoardList/InformBoardList";
 import {useAppContext} from "store";
+import AppLayoutHeader from "./AppLayoutHeader";
 
 function AppLayout(){
-    const {store:{jwtToken}} = useAppContext();
+    // const {store:{jwtToken}} = useAppContext();
 
     // const headers = {Authorization: `JWT ${jwtToken}`};
     const [value, setValue] = useState(2)
@@ -33,12 +33,7 @@ function AppLayout(){
 
     return(
         <div className="app">
-            <div className="header">
-                <h1 className="page-title"><img src={logo_} alt="logo" style={{width:"120px"}}></img></h1>
-                <div className="topnav">
-                    {jwtToken && jwtToken ? <AfterLoginMenu /> : <BeforeLoginMenu/>}
-                </div>
-            </div>
+            <AppLayoutHeader />
             <div className="blog_title"><h1>Honeyhyuni's Blog</h1></div>
         <div className="sub_header">
             <div className="choice_title">

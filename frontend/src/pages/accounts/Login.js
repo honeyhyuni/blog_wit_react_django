@@ -94,6 +94,7 @@ export default function Login() {
                     </Button>
                 </Form.Item>
             </Form>
+            <Button type="primary" style={{float:"right"}} onClick={(e) => {navigate("/")}}>메인페이지 이동</Button>
         </Card>
       );
 }

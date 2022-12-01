@@ -1,0 +1,40 @@
+.DetailApp{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-areas: 
+        "header header header" 
+        "card_area blank blank"
+        "text_area text_area text_area";
+    width: 1248px;
+    max-width: 100%;
+    margin: 10px auto;
+    .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        grid-area: header;
+        .page-title{   
+        }
+        .topnav{
+
+        }
+    }
+    .card_area{
+        // width: 128px;
+        // float: left;
+        max-width: 100%;
+        max-height: 100%;
+        grid-area: card_area;
+        display: flex;
+
+    }
+    .text_area{
+        width: 1248px;
+        margin: 10px auto;
+        height: 70vh;
+        grid-area: text_area;
+        display: flex;
+    }
+}
