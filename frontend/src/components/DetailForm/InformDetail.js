@@ -3,7 +3,6 @@ import {useParams} from 'react-router-dom';
 import Axios from 'axios';
 import {Card} from  "antd";
 import DetailForm from 'components/DetailForm';
-import { useAxios } from 'use-axios';
 function InformDetail() {
   const {user_id}  = useParams("");
   const [post, setPost] = useState([]);
