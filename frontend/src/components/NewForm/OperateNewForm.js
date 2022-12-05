@@ -27,9 +27,6 @@ export default function PostNewForm(){
         const formData = new FormData();
         formData.append("title", title);
         formData.append("caption", caption);
-        fileList.forEach(file => {
-          formData.append("photo", file.originFileObj);
-        });
     
         const headers = { Authorization: `Bearer ${jwtToken}` };
         try {
@@ -74,7 +71,7 @@ export default function PostNewForm(){
 
     return (
         <div className="OperateNew">
-            <Card title="운영게시판 새 포스팅 등록">
+            <Card title="공지사항 새 포스팅 등록">
             <Form {...layout} onFinish={handleFinish} autoComplete={"false"}>
             <Form.Item
                 label="TITLE"
@@ -97,29 +94,6 @@ export default function PostNewForm(){
                 <Input.TextArea />
             </Form.Item>
         
-            <Form.Item
-                label="Photo"
-                name="photo"
-                hasFeedback
-                {...fieldErrors.photo}
-            >
-                <Upload
-                listType="picture-card"
-                fileList={fileList}
-                beforeUpload={() => {
-                    return false;
-                }}
-                onChange={handleUploadChange}
-                onPreview={handlePreviewPhoto}
-                >
-                {fileList.length > 0 ? null : (
-                    <div>
-                    <PlusOutlined />
-                    <div className="ant-upload-text">Upload</div>
-                    </div>
-                )}
-                </Upload>
-            </Form.Item>
         
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
@@ -127,17 +101,6 @@ export default function PostNewForm(){
                 </Button>
             </Form.Item>
         
-            <Modal
-                visible={previewPhoto.visible}
-                footer={null}
-                onCancel={() => setPreviewPhoto({ visible: false })}
-            >
-                <img
-                src={previewPhoto.base64}
-                style={{ width: "100%" }}
-                alt="Preview"
-                />
-            </Modal>
 
                 </Form>
             </Card>
