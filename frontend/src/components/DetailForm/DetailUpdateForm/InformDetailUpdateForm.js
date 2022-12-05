@@ -6,25 +6,20 @@ import {Button, Form, Input, Card, notification} from "antd";
 import {FrownOutlined} from "@ant-design/icons";
 import parseErrorMessages from "pages/utils/ParseError";
 
-export default function FreeDetailUpdateForm(){
+export default function InformDetailUpdateForm(){
     const {user_id} = useParams()
     const navigate = useNavigate();
     const [fieldErrors, setFieldErrors] = useState([]);
     const {store:{jwtToken}} = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const [post, setPost] = useState([]);
-    const {caption, title} = post
 
-    const fields = [
-      { name: ['title'], value: title },
-      { name: ['caption'], value: caption},
-    ];
-  
+
     const onDelete = () => {
         const deleteOk = window.confirm("정말 삭제하시겠습니까?");
         if(deleteOk){
           try{
-              const apiUrl = `http://localhost:8000/api/free/${user_id}`
+              const apiUrl = `http://localhost:8000/api/inform/${user_id}`
               Axios.delete(apiUrl, {headers})
               .then()
               .catch()
@@ -39,7 +34,7 @@ export default function FreeDetailUpdateForm(){
 
     useEffect(() => {
       async function fetchList(){
-      const apiUrl = `http://localhost:8000/api/free/${user_id}`
+      const apiUrl = `http://localhost:8000/api/inform/${user_id}`
       await Axios.get(apiUrl, {headers})
       .then(response => {
           const {data} = response;
@@ -62,7 +57,7 @@ export default function FreeDetailUpdateForm(){
     
         try {
 
-            const response = await Axios.patch(`http://localhost:8000/api/free/${user_id}/`, formData, {
+            const response = await Axios.patch(`http://localhost:8000/api/inform/${user_id}/`, formData, {
             headers
           });
           console.log("success response :", response);
@@ -86,7 +81,7 @@ export default function FreeDetailUpdateForm(){
     return(
         <div className="OperateNew">
             <Card title="포스팅 수정">
-            <Form {...layout} onFinish={handleFinish} autoComplete={"false"} fields={fields}>
+            <Form {...layout} onFinish={handleFinish} autoComplete={"false"}>
             <Form.Item
                 label="TITLE"
                 name="title"
@@ -95,10 +90,7 @@ export default function FreeDetailUpdateForm(){
                 {...fieldErrors.title}
                 {...fieldErrors.non_field_errors}
             >
-                <Input 
-
-                />
-                
+                <Input/>
             </Form.Item>
         
             <Form.Item 
@@ -108,19 +100,18 @@ export default function FreeDetailUpdateForm(){
                 hasFeedback
                 {...fieldErrors.caption}
             >
-                <Input.TextArea 
-                  defaultValue={caption} />
+                <Input.TextArea />
             </Form.Item>
         
         
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
-                Submit
+                    Submit
                 </Button>
             </Form.Item>
             <Form.Item {...tailLayout}>
                 <Button type="primary" danger onClick={onDelete}>
-                delete
+                    delete
                 </Button>
             </Form.Item>
         

@@ -8,9 +8,28 @@ import parseErrorMessages from "pages/utils/ParseError";
 
 export default function OperateDetailUpdateForm(){
     const {user_id} = useParams()
-    const navgate = useNavigate();
+    const navigate = useNavigate();
     const {store:{jwtToken}} = useAppContext();
+    const headers = { Authorization: `Bearer ${jwtToken}` };
     const [fieldErrors, setFieldErrors] = useState([]);
+
+
+    const onDelete = () => {
+      const deleteOk = window.confirm("정말 삭제하시겠습니까?");
+      if(deleteOk){
+        try{
+            const apiUrl = `http://localhost:8000/api/operate/${user_id}/`
+            Axios.delete(apiUrl, {headers})
+            .then()
+            .catch()
+            navigate("/")
+            window.location.reload("/")
+          }
+         catch(error){
+            console.log(error)
+       }
+    }
+  }
 
     const handleFinish = async fieldValues => {
         const {
@@ -29,7 +48,7 @@ export default function OperateDetailUpdateForm(){
             headers
           });
           console.log("success response :", response);
-          navgate("/");
+          navigate("/");
         } catch (error) {
           if (error.response) {
             const { status, data: fieldsErrorMessages } = error.response;
@@ -75,6 +94,11 @@ export default function OperateDetailUpdateForm(){
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
                 Submit
+                </Button>
+            </Form.Item>
+            <Form.Item {...tailLayout}>
+                <Button type="primary" danger onClick={onDelete}>
+                delete
                 </Button>
             </Form.Item>
         
