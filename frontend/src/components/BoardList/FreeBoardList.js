@@ -60,13 +60,27 @@ function FreeBoardList(){
                 <p>{moment(record.created_at).format("YYYY-MM-DD")}</p>
             );
           }
+        },
+        {
+          title: 'Updated_at',
+          key: 'updated_at',
+          // onFilter: (value, record) => record.address.indexOf(value) === 0,
+          sorter: {
+            compare: (a, b) =>
+              moment(a.updated_at, "DD-MM-YYYY") - moment(b.updated_at, "DD-MM-YYYY"),
+          },
+          render: (record) => {
+            return (
+                <p>{moment(record.updated_at).format("YYYY-MM-DD")}</p>
+            );
+          }
         }
       ]
       const data = []
       post.map(p => {
-        const {author, created_at, title, caption, id} = p
+        const {author, created_at, title, caption, id, updated_at} = p
         const {username, name} = author || "username"
-        data.push({created_at, title, caption, id, username, name})
+        data.push({created_at, title, caption, id, username, name, updated_at})
       })
     const onChange = (pagination, filters, sorter, extra) => {
       console.log('params', pagination, filters, sorter, extra);
