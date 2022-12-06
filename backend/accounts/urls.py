@@ -13,4 +13,5 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
     path('token/verify/', TokenVerifyView.as_view()),
+    path('update_profile/<int:pk>/', views.UpdateProfileView.as_view(), name='update_profile'),
 ]

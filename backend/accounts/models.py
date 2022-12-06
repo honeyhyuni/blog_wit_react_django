@@ -14,7 +14,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=13, blank=False, null=False,
                                     validators=[RegexValidator(r"^010-?[1-9]\d{3}-?\d{4}$")])
 
-    photo = models.ImageField(upload_to='blogs/user/%Y/%m/%d', blank=True, default='default/default.jpg')
+    photo = models.ImageField(upload_to='blogs/user/%Y/%m/%d', blank=True, null=True, default='default/default.jpg')
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}".strip()

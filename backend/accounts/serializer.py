@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+
+
 # from models import User
 
 
@@ -26,6 +28,18 @@ class SignupSerializers(serializers.ModelSerializer):
 
 
 class UserFineByMeSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+    id = serializers.CharField(read_only=True)
+
     class Meta:
         model = get_user_model()
-        fields = ['username']
+        fields = ['id', 'username', 'first_name', 'last_name', 'age', 'gender', 'phone_number', 'photo']
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'first_name', 'last_name', 'age', 'gender', 'phone_number', 'photo')
+
