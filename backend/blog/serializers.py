@@ -16,7 +16,7 @@ class FreeBoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreeBoard
-        fields = ['id', 'author', 'created_at', 'caption', 'title']
+        fields = ['id', 'author', 'created_at', 'caption', 'title', 'updated_at']
 
 
 class NoticeInformSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class NoticeInformSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NoticeInform
-        fields = ['id', 'author', 'created_at', 'caption', 'title']
+        fields = ['id', 'author', 'created_at', 'caption', 'title', 'updated_at']
 
 
 class OperateBoardSerializer(serializers.ModelSerializer):
@@ -32,4 +32,4 @@ class OperateBoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OperateBoard
-        fields = ['id', 'author', 'created_at', 'caption', 'title']
+        fields = ['id', 'author', 'created_at', 'caption', 'title', 'updated_at']
