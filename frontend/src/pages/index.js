@@ -10,6 +10,9 @@ import InformNewForm from 'components/NewForm/InformNewForm';
 import FreeDetail from "components/DetailForm/FreeDetail";
 import OperateDetail from "components/DetailForm/OperateDetail";
 import InformDetail from "components/DetailForm/InformDetail";
+import FreeDetailUpdateForm from "components/DetailForm/DetailUpdateForm/FreeDetailUpdateForm";
+import OperateDetailUpdateForm from "components/DetailForm/DetailUpdateForm/OperateDetailUpdateForm";
+import InformDetailUpdateForm from "components/DetailForm/DetailUpdateForm/InformDetailUpdateForm";
 // import LoginRequiredPage from "./utils/LoginRequiredPages";
 // import PostNew from "./PostNew"
 
@@ -21,11 +24,13 @@ function Root(){
                     <Route path="/operate/new" element={<OperateNewForm />} />
                     <Route path="/free/new" element={<FreeNewForm />} />
                     <Route path="/inform/new" element={<InformNewForm />} />
+                    <Route path="free/:user_id/update" element={<FreeDetailUpdateForm />} />
+                    <Route path="operate/:user_id/update" element={<OperateDetailUpdateForm />} />
+                    <Route path="inform/:user_id/update" element={<InformDetailUpdateForm />} />
+                    <Route path="free/:user_id" element={<FreeDetail />} />
+                    <Route path="operate/:user_id" element={<OperateDetail />} />
+                    <Route path="inform/:user_id" element={<InformDetail />} />
                 </Route>
-                <Route path="free/:user_id" element={<FreeDetail />} />
-                <Route path="operate/:user_id" element={<OperateDetail />} />
-                <Route path="inform/:user_id" element={<InformDetail />} />
-                {/* <Route path="/about" element={<About />} /> */}
                 <Route path="/" element={<Home />} />
                 <Route path="/accounts/*" element={<AccountsRoutes/>} />
             </Routes>

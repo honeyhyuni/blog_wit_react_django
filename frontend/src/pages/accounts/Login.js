@@ -10,7 +10,6 @@ export default function Login() {
     const [jwtToken, setJwtToken] = useLocalStorage("jwtToken", "");
     const [fieldErrors, setFieldErrors] = useState({});
     const onFinish = (values) => {
-        console.log("values:" , values)
         async function fn(){
             const {username, password} = values;
             setFieldErrors({});
