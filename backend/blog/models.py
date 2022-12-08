@@ -7,6 +7,10 @@ class TimeStampedModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     caption = models.TextField()
     title = models.CharField(max_length=100, null=False, blank=False)
+    like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+
+    def get_like_length(self):
+        return self.like_user_set.count()
 
     class Meta:
         abstract = True

@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render
 from rest_framework import status, filters
@@ -14,8 +15,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAd
 class AbstractClass(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['id', 'created_at']
-    ordering = ['-created_at']
+    ordering_fields = ['id', 'created_at', 'updated_at']
+    ordering = ['-updated_at']
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -42,6 +43,23 @@ class AbstractClass(ModelViewSet):
             response = {
                 'detail': 'Delete function is not offered without authorization as the owner.'}
             return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
+    @action(detail=True, methods=["POST"])
+    def like(self, request, pk):
+        post = self.get_object()
+        post.like_user_set.add(self.request.user)
+        return Response(status.HTTP_201_CREATED)
+
+    @like.mapping.delete
+    def unlike(self, request, pk):
+        post = self.get_object()
+        post.like_user_set.remove(self.request.user)
+        return Response(status.HTTP_204_NO_CONTENT)
 
     class Meta:
         abstract = True
