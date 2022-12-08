@@ -51,7 +51,7 @@ function InformBoardList(){
           // onFilter: (value, record) => record.address.indexOf(value) === 0,
           sorter: {
             compare: (a, b) =>
-              moment(a.created_at, "DD-MM-YYYY") - moment(b.created_at, "DD-MM-YYYY"),
+              moment(a.created_at, "YYYY-MM-DD") - moment(b.created_at, "YYYY-MM-DD"),
           },
           render: (record) => {
             return (
@@ -65,20 +65,29 @@ function InformBoardList(){
           // onFilter: (value, record) => record.address.indexOf(value) === 0,
           sorter: {
             compare: (a, b) =>
-              moment(a.updated_at, "DD-MM-YYYY") - moment(b.updated_at, "DD-MM-YYYY"),
+              moment(a.updated_at, "YYYY-MM-DD") - moment(b.updated_at, "YYYY-MM-DD"),
           },
           render: (record) => {
             return (
                 <p>{moment(record.updated_at).format("YYYY-MM-DD")}</p>
             );
           }
-        }
+        },
+        {
+          title: '좋아요갯수',
+          dataIndex: 'get_like_length',
+          key: 'get_like_length',
+          sorter: {
+            compare: (a, b) =>
+              a.get_like_length - b.get_like_length
+          },
+        },
       ]
       const data = []
       post.map(p => {
-        const {author, created_at, title, caption, id, photo, updated_at} = p
+        const {author, created_at, title, caption, id, photo, updated_at, get_like_length} = p
         const {username, name} = author
-        data.push({created_at, title, caption, id, username, name, photo, updated_at})
+        data.push({created_at, title, caption, id, username, name, photo, updated_at, get_like_length})
       })
     const onChange = (pagination, filters, sorter, extra) => {
       console.log('params', pagination, filters, sorter, extra);

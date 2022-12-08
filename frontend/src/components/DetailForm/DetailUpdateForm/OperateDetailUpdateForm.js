@@ -12,6 +12,13 @@ export default function OperateDetailUpdateForm(){
     const {store:{jwtToken}} = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const [fieldErrors, setFieldErrors] = useState([]);
+    const [post, setPost] = useState([]);
+    const {caption, title} = post
+
+    const fields = [
+      { name: ['title'], value: title },
+      { name: ['caption'], value: caption},
+    ];
 
 
     const onDelete = () => {
@@ -30,6 +37,19 @@ export default function OperateDetailUpdateForm(){
        }
     }
   }
+  
+  useEffect(() => {
+    async function fetchList(){
+    const apiUrl = `http://localhost:8000/api/inform/${user_id}`
+    await Axios.get(apiUrl, {headers})
+    .then(response => {
+        const {data} = response;
+        setPost(data)
+    })
+    .catch()
+    }
+    fetchList()
+  },[])
 
     const handleFinish = async fieldValues => {
         const {
@@ -68,7 +88,7 @@ export default function OperateDetailUpdateForm(){
     return(
         <div className="OperateNew">
             <Card title="포스팅 수정">
-            <Form {...layout} onFinish={handleFinish} autoComplete={"false"}>
+            <Form {...layout} onFinish={handleFinish} autoComplete={"false"} fields={fields}>
             <Form.Item
                 label="TITLE"
                 name="title"

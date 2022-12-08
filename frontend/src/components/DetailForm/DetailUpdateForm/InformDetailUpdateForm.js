@@ -13,6 +13,12 @@ export default function InformDetailUpdateForm(){
     const {store:{jwtToken}} = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const [post, setPost] = useState([]);
+    const {caption, title} = post
+
+    const fields = [
+      { name: ['title'], value: title },
+      { name: ['caption'], value: caption},
+    ];
 
 
     const onDelete = () => {
@@ -81,7 +87,7 @@ export default function InformDetailUpdateForm(){
     return(
         <div className="OperateNew">
             <Card title="포스팅 수정">
-            <Form {...layout} onFinish={handleFinish} autoComplete={"false"}>
+            <Form {...layout} onFinish={handleFinish} autoComplete={"false"} fields={fields}>
             <Form.Item
                 label="TITLE"
                 name="title"
