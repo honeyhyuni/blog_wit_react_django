@@ -41,7 +41,6 @@ class NoticeInformSerializer(serializers.ModelSerializer):
         fields = ['id', 'author', 'created_at', 'caption', 'title', 'updated_at', 'is_like', 'get_like_length']
 
 
-
 class OperateBoardSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     is_like = serializers.SerializerMethodField('is_like_field')
