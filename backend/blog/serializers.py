@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import FreeBoard, NoticeInform, OperateBoard
+from .models import FreeBoard, NoticeInform, OperateBoard, FreeComment, InformComment, OperateComment
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -54,3 +54,27 @@ class OperateBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = OperateBoard
         fields = ['id', 'author', 'created_at', 'caption', 'title', 'updated_at', 'is_like', 'get_like_length']
+
+
+class FreeCommentSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
+    class Meta:
+        model = FreeComment
+        fields = ['id', 'author', 'message', 'created_at', 'updated_at']
+
+
+class InformCommentSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
+    class Meta:
+        model = InformComment
+        fields = ['id', 'author', 'message', 'created_at', 'update_at']
+
+
+class OperateCommentSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
+    class Meta:
+        model = OperateComment
+        fields = ['id', 'author', 'message', 'created_at', 'update_at']

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'django_extensions',
     # local apps
     'blog',
     'accounts',
@@ -175,3 +176,9 @@ SIMPLE_JWT = {
 }
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+
+# ERD
+GRAPH_MODELS = {
+    'all_applications': True,
+    'graph_models': True,
+}

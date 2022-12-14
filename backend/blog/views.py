@@ -4,11 +4,13 @@ from django.http import Http404
 from django.shortcuts import render
 from rest_framework import status, filters
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-from .models import FreeBoard, OperateBoard, NoticeInform
+from .models import FreeBoard, OperateBoard, NoticeInform, InformComment, OperateComment, FreeComment
 from rest_framework.viewsets import ModelViewSet
-from .serializers import FreeBoardSerializer, OperateBoardSerializer, NoticeInformSerializer
+from .serializers import FreeBoardSerializer, OperateBoardSerializer, NoticeInformSerializer, OperateCommentSerializer, \
+    InformCommentSerializer, FreeCommentSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAdminUser
 
 
@@ -79,3 +81,51 @@ class OperateBoardViewSet(AbstractClass):
 class NoticeInformViewSet(AbstractClass):
     queryset = NoticeInform.objects.all()
     serializer_class = NoticeInformSerializer
+
+
+# 댓글 View Interface
+class CommentAbstract(ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['id', 'updated_at']
+    ordering = ['-updated_at']
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(post__pk=self.kwargs['post_pk'])
+        return qs
+
+
+class FreeCommentViewSet(CommentAbstract):
+    queryset = FreeComment.objects.all()
+    serializer_class = FreeCommentSerializer
+
+    def perform_create(self, serializer):
+        post = get_object_or_404(FreeComment, pk=self.kwargs['post_pk'])
+        serializer.save(author=self.request.user, post=post)
+        return super().perform_create(serializer)
+
+
+class OperateCommentViewSet(CommentAbstract):
+    queryset = OperateComment.objects.all()
+    serializer_class = OperateCommentSerializer
+
+    def perform_create(self, serializer):
+        post = get_object_or_404(OperateComment, pk=self.kwargs['post_pk'])
+        serializer.save(author=self.request.user, post=post)
+        return super().perform_create(serializer)
+
+
+class InformCommentViewSet(CommentAbstract):
+    queryset = InformComment.objects.all()
+    serializer_class = InformCommentSerializer
+
+    def perform_create(self, serializer):
+        post = get_object_or_404(InformComment, pk=self.kwargs['post_pk'])
+        serializer.save(author=self.request.user, post=post)
+        return super().perform_create(serializer)
