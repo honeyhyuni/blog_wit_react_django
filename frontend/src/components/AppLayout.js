@@ -43,7 +43,7 @@ function AppLayout(){
                     <Menu.Item key="inform" onClick={()=>onClick(3)}>운영게시판</Menu.Item>
                 </Menu>
             </div>
-            <div className="search"><Input />
+            <div className="search"><Input.Search />
             </div>
         </div>
             <div className="contents">

@@ -23,7 +23,6 @@ function FreeBoardList(){
       }
       fetchList()
     }, [])
-
     const columns = [
         {
           title: 'ID',
@@ -88,7 +87,6 @@ function FreeBoardList(){
       const data = []
       post.map(p => {
         const {author, created_at, title, caption, id, updated_at, get_like_length} = p
-        console.log(get_like_length)
         const {username, name} = author || "username"
         data.push({created_at, title, caption, id, username, name, updated_at, get_like_length})
       })

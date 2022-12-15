@@ -7,6 +7,7 @@ import FreeDetailUpdateForm from './DetailForm/DetailUpdateForm/FreeDetailUpdate
 import Axios from 'axios';
 import { useAppContext } from 'store';
 import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
+import CommentList from './Comment/CommentList';
 
 export default function DetailForm({post, handleLike}){
     const { Panel } = Collapse;
@@ -78,6 +79,7 @@ export default function DetailForm({post, handleLike}){
                     <Button size='large' type='primary' style={{marginRight:"0.25em", float:"right"}} onClick={onClick}>수정하기</Button>
                     <Button size='large' type='primary' onClick={() => {navigate("/")}} >목록으로</Button>
                 </div>
+                    <CommentList post={post}/>
                 </div>
                     
  

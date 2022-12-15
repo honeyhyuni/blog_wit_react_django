@@ -5,7 +5,8 @@
     grid-template-areas: 
         "card_area blank blank"
         "text_area text_area text_area"
-        "footer footer footer";
+        "footer footer footer"
+        "commentList commentList commentList";       
     width: 1248px;
     max-width: 100%;
     margin: 10px auto;
@@ -29,5 +30,34 @@
         grid-area: footer;
         display: flex;
         justify-content: end;
+    }
+    .commentList{
+        grid-area: commentList;
+        display: flex;
+        justify-content: center;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas: 
+            "comment"
+            "input_comment"
+            "button_comment";
+        
+        .input_comment{
+            grid-area: input_comment;
+            display: block;
+            justify-content: center;
+        }
+        .button_comment{
+            grid-area: button_comment;
+            display: block;
+            justify-content: center;
+        }
+
+        .comment{
+            grid-area: comment;
+            display: block;
+            justify-content: center;
+        }
     }
 }
