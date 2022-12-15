@@ -116,6 +116,11 @@ class OperateCommentViewSet(CommentAbstract):
     queryset = OperateComment.objects.all()
     serializer_class = OperateCommentSerializer
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(post__pk=self.kwargs['operate_pk'])
+        return qs
+
     def perform_create(self, serializer):
         post = get_object_or_404(OperateBoard, pk=self.kwargs['operate_pk'])
         serializer.save(author=self.request.user, post=post)
@@ -125,6 +130,11 @@ class OperateCommentViewSet(CommentAbstract):
 class InformCommentViewSet(CommentAbstract):
     queryset = InformComment.objects.all()
     serializer_class = InformCommentSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(post__pk=self.kwargs['inform_pk'])
+        return qs
 
     def perform_create(self, serializer):
         post = get_object_or_404(NoticeInform, pk=self.kwargs['inform_pk'])
