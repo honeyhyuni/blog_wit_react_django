@@ -69,7 +69,7 @@ class InformCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InformComment
-        fields = ['id', 'author', 'message', 'created_at', 'update_at']
+        fields = ['id', 'author', 'message', 'created_at', 'updated_at']
 
 
 class OperateCommentSerializer(serializers.ModelSerializer):
@@ -77,4 +77,4 @@ class OperateCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OperateComment
-        fields = ['id', 'author', 'message', 'created_at', 'update_at']
+        fields = ['id', 'author', 'message', 'created_at', 'updated_at']

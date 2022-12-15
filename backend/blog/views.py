@@ -95,18 +95,19 @@ class CommentAbstract(ModelViewSet):
         context['request'] = self.request
         return context
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.filter(post__pk=self.kwargs['post_pk'])
-        return qs
-
 
 class FreeCommentViewSet(CommentAbstract):
     queryset = FreeComment.objects.all()
     serializer_class = FreeCommentSerializer
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(post__pk=self.kwargs['free_pk'])
+        return qs
+
     def perform_create(self, serializer):
-        post = get_object_or_404(FreeComment, pk=self.kwargs['post_pk'])
+        qs = FreeComment.objects.filter(pk=self.kwargs['free_pk'])
+        post = get_object_or_404(FreeBoard, pk=self.kwargs['free_pk'])
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
 
@@ -116,7 +117,7 @@ class OperateCommentViewSet(CommentAbstract):
     serializer_class = OperateCommentSerializer
 
     def perform_create(self, serializer):
-        post = get_object_or_404(OperateComment, pk=self.kwargs['post_pk'])
+        post = get_object_or_404(OperateBoard, pk=self.kwargs['operate_pk'])
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
 
@@ -126,6 +127,6 @@ class InformCommentViewSet(CommentAbstract):
     serializer_class = InformCommentSerializer
 
     def perform_create(self, serializer):
-        post = get_object_or_404(InformComment, pk=self.kwargs['post_pk'])
+        post = get_object_or_404(NoticeInform, pk=self.kwargs['inform_pk'])
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
