@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Menu, Modal} from "antd";
+import {Menu, Modal, message} from "antd";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useAppContext } from "store";
@@ -16,7 +16,7 @@ export default function AfterLoginMenu(){
     
     useEffect(() => {
         async function fetchList(){
-        const apiUrl = "http://localhost:8000/accounts/userbyme"
+        const apiUrl = "http://localhost:8000/accounts/userbyme/"
         await  Axios.get(apiUrl, {headers})
         .then(response => {
             const {data} = response;
@@ -63,9 +63,9 @@ export default function AfterLoginMenu(){
     return (
         <div>
             <Menu mode="horizontal">
-                <Menu.Item key="signup" onClick={() => onClick(1)}>{username}</Menu.Item>
-                <Menu.Item key="login" onClick={() => onClick(2)}>로그아웃</Menu.Item>
-                <Menu.Item key="zz" onClick={showModal}>회원탈퇴</Menu.Item>
+                <Menu.Item key="userbyme" onClick={() => onClick(1)}>{username}</Menu.Item>
+                <Menu.Item key="logout" onClick={() => onClick(2)}>로그아웃</Menu.Item>
+                <Menu.Item key="deleteuser" onClick={showModal}>회원탈퇴</Menu.Item>
             </Menu>
             <Modal title="회원 탈퇴" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 회원 탈퇴를 하시겠습니까??
