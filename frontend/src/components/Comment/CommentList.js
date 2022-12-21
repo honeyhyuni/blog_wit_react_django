@@ -1,4 +1,4 @@
-import {Input, Button} from "antd"
+import {Input, Button, Pagination } from "antd"
 import React, { useState } from "react";
 import { useAppContext } from "store";
 import useAxios from "axios-hooks";
@@ -10,14 +10,16 @@ export default function CommentList(){
     const location = useLocation();
     const {store:{jwtToken}} = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
+    const [page, setPage] = useState(1)
     
     const [commentContent, setCommentContent] = useState("");
 
     const [{data:commentList, loading, error}, refetch] = useAxios({
-        url:`http://localhost:8000/api${location.pathname}/comments/`,
+        url:`http://localhost:8000/api${location.pathname}/comments/?page=${page}`,
         headers,
         
     });
+    
     const handleCommentSave = async () => {
         const apiUrl = `http://localhost:8000/api${location.pathname}/comments/`
         try{
@@ -29,11 +31,15 @@ export default function CommentList(){
             console.log('error', error)
         }
     }
+    
+    const onChange = (e) => {
+        setPage(e)
+    }
 
     return(
     <div className="commentList">  
         <div className="comment">
-            {commentList && commentList.map(comment => (
+            {commentList && commentList.results.map(comment => (
                 <Comment key={comment.id} comment={comment}/>
             ))}
         </div>
@@ -45,6 +51,12 @@ export default function CommentList(){
                 onClick={handleCommentSave}>
                 댓글 쓰기
             </Button>
+            <Pagination
+                showSizeChanger
+                defaultCurrent={1}
+                total={commentList && commentList.count}
+                onChange={onChange}
+                />
     </div>
     );
 }

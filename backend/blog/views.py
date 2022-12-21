@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework import status, filters
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from .models import FreeBoard, OperateBoard, NoticeInform, InformComment, OperateComment, FreeComment
@@ -68,7 +69,7 @@ class AbstractClass(ModelViewSet):
 
 
 class FreeBoardViewSet(AbstractClass):
-    queryset = FreeBoard.objects.all()
+    queryset = FreeBoard.objects.all().order_by('-updated_at')
     serializer_class = FreeBoardSerializer
 
 
@@ -95,10 +96,14 @@ class CommentAbstract(ModelViewSet):
         context['request'] = self.request
         return context
 
+class PostPageNumberPagination(PageNumberPagination):
+    page_size = 10
+
 
 class FreeCommentViewSet(CommentAbstract):
     queryset = FreeComment.objects.all()
     serializer_class = FreeCommentSerializer
+    pagination_class = PostPageNumberPagination
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -130,6 +135,7 @@ class OperateCommentViewSet(CommentAbstract):
 class InformCommentViewSet(CommentAbstract):
     queryset = InformComment.objects.all()
     serializer_class = InformCommentSerializer
+    pagination_class = 3
 
     def get_queryset(self):
         qs = super().get_queryset()

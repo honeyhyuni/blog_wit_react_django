@@ -24,7 +24,8 @@ export default function Comment({comment}){
                     <Tooltip title={moment().format(updated_at)}>
                     <span>{moment(updated_at).fromNow()}</span>
                     </Tooltip>
-                }/>
+                }
+                />
             </div>
     );
 }
