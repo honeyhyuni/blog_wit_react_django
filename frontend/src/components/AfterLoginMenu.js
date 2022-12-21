@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Menu} from "antd";
+import {Menu, Modal} from "antd";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useAppContext } from "store";
@@ -11,6 +11,8 @@ export default function AfterLoginMenu(){
     const [outToken, setOutJwtToken] = useLocalStorage("jwtToken", "")
     const {store:{jwtToken}} = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     
     useEffect(() => {
         async function fetchList(){
@@ -24,7 +26,30 @@ export default function AfterLoginMenu(){
         }
         fetchList()
       }, [])
+      
+      const showModal = () => {
+        setIsModalOpen(true);
+      };
+    
+      const handleOk = () => {
+        const apiUrl = `http://localhost:8000/accounts/userbyme/${user_id}/`
+        console.log(apiUrl)
+        Axios.delete(apiUrl, {headers})
+        .then(response => {
+        })
+        .catch()
+        setIsModalOpen(false);
+        setOutJwtToken("")
+        window.location.reload("/")
+        
+      };
+    
+      const handleCancel = () => {
+        setIsModalOpen(false);
+      };
+    
     const username = (user[0] && user[0].username)
+    const user_id = (user[0] && user[0].id)
     const onClick = (value) => { 
         if(value === 1){
             navigate("accounts/update_profile")
@@ -34,17 +59,17 @@ export default function AfterLoginMenu(){
             navigate("/")
             window.location.reload("/")
         }
-        else{
-            navigate("accounts/logout/")
-        }
     }
     return (
         <div>
             <Menu mode="horizontal">
                 <Menu.Item key="signup" onClick={() => onClick(1)}>{username}</Menu.Item>
                 <Menu.Item key="login" onClick={() => onClick(2)}>로그아웃</Menu.Item>
-                <Menu.Item key="zz" onClick={() => onClick(3)}>회원탈퇴</Menu.Item>
+                <Menu.Item key="zz" onClick={showModal}>회원탈퇴</Menu.Item>
             </Menu>
+            <Modal title="회원 탈퇴" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                회원 탈퇴를 하시겠습니까??
+            </Modal>
         </div>
     );
 }
