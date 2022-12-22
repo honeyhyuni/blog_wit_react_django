@@ -11,25 +11,16 @@ import "./New.scss";
 export default function PostNewForm(){
     const navgate = useNavigate();
     const {store:{jwtToken}} = useAppContext();
-    const [fileList, setFileList] = useState([]);
     const [fieldErrors, setFieldErrors] = useState([]);
-    const [previewPhoto, setPreviewPhoto] = useState({
-        visible: false,
-        base64: null
-    });
     const handleFinish = async fieldValues => {
         const {
           title,
           caption,
-          photo: { fileList }
         } = fieldValues;
         
         const formData = new FormData();
         formData.append("title", title);
         formData.append("caption", caption);
-        fileList.forEach(file => {
-          formData.append("photo", file.originFileObj);
-        });
     
         const headers = { Authorization: `Bearer ${jwtToken}` };
         try {
@@ -54,22 +45,6 @@ export default function PostNewForm(){
           }
         }
       };
-    
-    
-    const handleUploadChange = ({ fileList }) => {
-        setFileList(fileList);
-      };
-
-    const handlePreviewPhoto = async file => {
-        if(!file.url && !file.preview){
-            file.preview = await getBase64FromFile(file.originFileObj)
-        }
-
-        setPreviewPhoto({
-            visible: true,
-            base64: file.url || file.preview
-        })
-    }
     
 
     return (
@@ -97,47 +72,11 @@ export default function PostNewForm(){
                 <Input.TextArea />
             </Form.Item>
         
-            <Form.Item
-                label="Photo"
-                name="photo"
-                hasFeedback
-                {...fieldErrors.photo}
-            >
-                <Upload
-                listType="picture-card"
-                fileList={fileList}
-                beforeUpload={() => {
-                    return false;
-                }}
-                onChange={handleUploadChange}
-                onPreview={handlePreviewPhoto}
-                >
-                {fileList.length > 0 ? null : (
-                    <div>
-                    <PlusOutlined />
-                    <div className="ant-upload-text">Upload</div>
-                    </div>
-                )}
-                </Upload>
-            </Form.Item>
-        
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
                 Submit
                 </Button>
             </Form.Item>
-        
-            <Modal
-                visible={previewPhoto.visible}
-                footer={null}
-                onCancel={() => setPreviewPhoto({ visible: false })}
-            >
-                <img
-                src={previewPhoto.base64}
-                style={{ width: "100%" }}
-                alt="Preview"
-                />
-            </Modal>
                 </Form>
             </Card>
     </div>
