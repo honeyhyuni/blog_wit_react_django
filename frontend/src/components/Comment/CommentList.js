@@ -19,6 +19,14 @@ export default function CommentList(){
         headers,
         
     });
+
+    const [{data:user, loading2, error2}, refetch2] = useAxios({
+        url:`http://localhost:8000/accounts/userbyme/`,
+        headers,
+        
+    });
+    const login_user = user && user[0].username
+    
     
     const handleCommentSave = async () => {
         const apiUrl = `http://localhost:8000/api${location.pathname}/comments/`
@@ -36,11 +44,24 @@ export default function CommentList(){
         setPage(e)
     }
 
+    // 댓글 삭제
+    const onClick_delete = async ({comment}) => {
+        const apiUrl = `http://localhost:8000/api${location.pathname}/comments/${comment.id}`;
+        try{
+            const response = await Axios.delete(apiUrl,{headers})
+            refetch()
+        }
+        catch(error){
+    
+        }
+    }
+
+
     return(
     <div className="commentList">  
         <div className="comment">
             {commentList && commentList.results.map(comment => (
-                <Comment key={comment.id} comment={comment}/>
+                <Comment key={comment.id} comment={comment} login_user={login_user} onClick_delete={onClick_delete} />
             ))}
         </div>
             <Input.TextArea className="input_comment" style={{marginBottom: "0.5em"}}

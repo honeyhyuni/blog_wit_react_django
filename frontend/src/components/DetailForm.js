@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import {Input, Collapse, Image, Button, Modal} from  "antd";
+import React from 'react';
+import {Input, Collapse, Image, Button} from  "antd";
 import moment from 'moment';
 import "./Detail.scss"
 import { useLocation, useNavigate } from 'react-router-dom';
-import FreeDetailUpdateForm from './DetailForm/DetailUpdateForm/FreeDetailUpdateForm';
 import Axios from 'axios';
 import { useAppContext } from 'store';
 import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
@@ -17,7 +16,7 @@ export default function DetailForm({post, handleLike}){
     const navigate = useNavigate();
     const {store:{jwtToken}} = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
-    // const [isModalOpen, setIsModalOpen] = useState(false);
+
     const onClick = (e) => {
         async function fetchList(){
         const apiUrl = "http://localhost:8000/accounts/userbyme"
@@ -66,13 +65,11 @@ export default function DetailForm({post, handleLike}){
                 <div className='card_area'>
                     <Image hoverable src={photo} alt={name} width="248px" height="248px"/>  
 
-                    {/* <Image hoverable src={logo_} alt={name} width="248px" height="248px"/>  } */}
                 </div>
                 <div className='text_area'>
                     <Input.TextArea  value={caption} style={{fontSize:"20px", maxBlockSize:"100%"}} readOnly={true}/>
                 </div>
                 <div className='footer'>
-                    {/* <Button size='large' type='primary' style={{marginRight:"0.25em", float:"right"}} onClick={() => {navigate(`${location.pathname}/update`)}}>수정하기</Button> */}
                     <Button size='large' type='ghost' style={{marginRight:"0.25em", float:"right"}} onClick={heartClick}>
                     {is_like? "좋아요 취소" : "좋아요"} {is_like? (<HeartTwoTone twoToneColor="#eb2f96" />) :  <HeartOutlined />}
                     </Button> 

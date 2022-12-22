@@ -96,6 +96,7 @@ class CommentAbstract(ModelViewSet):
         context['request'] = self.request
         return context
 
+
 class PostPageNumberPagination(PageNumberPagination):
     page_size = 10
 
@@ -116,10 +117,33 @@ class FreeCommentViewSet(CommentAbstract):
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if self.request.user == instance.author:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            response = {
+                'detail': 'Delete function is not offered without authorization as the owner.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if self.request.user == instance.author:
+            serializer = self.get_serializer(instance, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            response = {
+                'detail': 'Update function is not offered without authorization as the owner.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
 
 class OperateCommentViewSet(CommentAbstract):
     queryset = OperateComment.objects.all()
     serializer_class = OperateCommentSerializer
+    pagination_class = PostPageNumberPagination
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -131,11 +155,21 @@ class OperateCommentViewSet(CommentAbstract):
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if self.request.user == instance.author:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            response = {
+                'detail': 'Delete function is not offered without authorization as the owner.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
 
 class InformCommentViewSet(CommentAbstract):
     queryset = InformComment.objects.all()
     serializer_class = InformCommentSerializer
-    pagination_class = 3
+    pagination_class = PostPageNumberPagination
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -146,3 +180,13 @@ class InformCommentViewSet(CommentAbstract):
         post = get_object_or_404(NoticeInform, pk=self.kwargs['inform_pk'])
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if self.request.user == instance.author:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            response = {
+                'detail': 'Delete function is not offered without authorization as the owner.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)

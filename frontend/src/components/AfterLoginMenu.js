@@ -33,7 +33,6 @@ export default function AfterLoginMenu(){
     
       const handleOk = () => {
         const apiUrl = `http://localhost:8000/accounts/userbyme/${user_id}/`
-        console.log(apiUrl)
         Axios.delete(apiUrl, {headers})
         .then(response => {
         })
@@ -41,7 +40,6 @@ export default function AfterLoginMenu(){
         setIsModalOpen(false);
         setOutJwtToken("")
         window.location.reload("/")
-        
       };
     
       const handleCancel = () => {
