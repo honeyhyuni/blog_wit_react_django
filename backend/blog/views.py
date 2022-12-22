@@ -165,6 +165,18 @@ class OperateCommentViewSet(CommentAbstract):
                 'detail': 'Delete function is not offered without authorization as the owner.'}
             return Response(response, status=status.HTTP_403_FORBIDDEN)
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if self.request.user == instance.author:
+            serializer = self.get_serializer(instance, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            response = {
+                'detail': 'Update function is not offered without authorization as the owner.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
 
 class InformCommentViewSet(CommentAbstract):
     queryset = InformComment.objects.all()
@@ -189,4 +201,16 @@ class InformCommentViewSet(CommentAbstract):
         else:
             response = {
                 'detail': 'Delete function is not offered without authorization as the owner.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if self.request.user == instance.author:
+            serializer = self.get_serializer(instance, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            response = {
+                'detail': 'Update function is not offered without authorization as the owner.'}
             return Response(response, status=status.HTTP_403_FORBIDDEN)
