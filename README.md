@@ -24,6 +24,7 @@
 <hr/>
 
 ### [API URL 설계](https://plastic-paneer-24d.notion.site/API-274714bf6baf4b9d9d441ccb5e3c071d)
+### [와이어프레임(화면 설계서)](https://plastic-paneer-24d.notion.site/9e6b330b9228422498c292511509decd)
 
 <hr/>
 
